@@ -1,63 +1,96 @@
 {
   "name": "School Management System",
   "short_name": "SchoolMS",
+  "id": "school-management-system-pwa",
   "description": "Complete school management solution with mobile support",
   "start_url": "/",
   "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone"],
   "orientation": "portrait-primary",
   "background_color": "#ffffff",
   "theme_color": "#007bff",
   "scope": "/",
   "lang": "en",
   "categories": ["education", "productivity"],
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
   "icons": [
     {
       "src": "/static/images/icon-72.png",
       "sizes": "72x72",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
       "src": "/static/images/icon-96.png",
       "sizes": "96x96",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
       "src": "/static/images/icon-128.png",
       "sizes": "128x128",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
       "src": "/static/images/icon-144.png",
       "sizes": "144x144",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
       "src": "/static/images/icon-152.png",
       "sizes": "152x152",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
       "src": "/static/images/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
       "src": "/static/images/icon-384.png",
       "sizes": "384x384",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
       "src": "/static/images/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/static/images/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/static/images/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/static/images/screenshot-desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "School Management Dashboard"
+    },
+    {
+      "src": "/static/images/screenshot-mobile.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Mobile School Management"
     }
   ],
   "shortcuts": [
@@ -66,21 +99,21 @@
       "short_name": "Admin",
       "description": "Access admin dashboard",
       "url": "/admin/dashboard",
-      "icons": [{ "src": "/static/images/admin-icon.png", "sizes": "96x96" }]
+      "icons": [{ "src": "/static/images/icon-96.png", "sizes": "96x96" }]
     },
     {
       "name": "Teacher Panel",
       "short_name": "Teacher",
       "description": "Access teacher dashboard",
       "url": "/teacher/dashboard",
-      "icons": [{ "src": "/static/images/teacher-icon.png", "sizes": "96x96" }]
+      "icons": [{ "src": "/static/images/icon-96.png", "sizes": "96x96" }]
     },
     {
       "name": "Student Panel",
       "short_name": "Student",
       "description": "Access student dashboard",
       "url": "/student/dashboard",
-      "icons": [{ "src": "/static/images/student-icon.png", "sizes": "96x96" }]
+      "icons": [{ "src": "/static/images/icon-96.png", "sizes": "96x96" }]
     }
   ]
 }
