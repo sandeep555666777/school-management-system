@@ -1243,9 +1243,35 @@ def calculate_letter_grade(percentage):
 def service_worker():
     return app.send_static_file('sw.js'), 200, {'Content-Type': 'application/javascript'}
 
+@app.route('/static/sw-simple.js')
+def service_worker_simple():
+    return app.send_static_file('sw-simple.js'), 200, {'Content-Type': 'application/javascript'}
+
 @app.route('/static/manifest.json')
 def manifest():
     return app.send_static_file('manifest.json'), 200, {'Content-Type': 'application/json'}
+
+@app.route('/share', methods=['GET', 'POST'])
+def share_target():
+    """Handle PWA share target"""
+    if request.method == 'POST':
+        # Handle shared content
+        title = request.form.get('title', '')
+        text = request.form.get('text', '')
+        url = request.form.get('url', '')
+        files = request.files.getlist('files')
+        
+        # For now, redirect to dashboard with shared content
+        if title or text or url:
+            flash(f'Shared content received: {title} {text} {url}', 'info')
+        
+        if files:
+            flash(f'Received {len(files)} shared files', 'info')
+        
+        return redirect(url_for('dashboard'))
+    
+    # GET request - show share form
+    return render_template('share.html')
 
 if __name__ == '__main__':
     with app.app_context():

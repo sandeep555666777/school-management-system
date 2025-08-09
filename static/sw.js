@@ -1,7 +1,7 @@
 // Service Worker for School Management System PWA
-const CACHE_NAME = 'school-ms-v1.0.0';
-const STATIC_CACHE = 'school-ms-static-v1.0.0';
-const DYNAMIC_CACHE = 'school-ms-dynamic-v1.0.0';
+const CACHE_NAME = 'school-ms-v1.1.0';
+const STATIC_CACHE = 'school-ms-static-v1.1.0';
+const DYNAMIC_CACHE = 'school-ms-dynamic-v1.1.0';
 
 // Files to cache immediately
 const STATIC_FILES = [

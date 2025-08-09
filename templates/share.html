@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Share Content - School Management System{% endblock %}
+
+{% block main_content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">
+                    <i class="fas fa-share-alt me-2"></i>
+                    Share Content
+                </h1>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-upload me-2"></i>
+                                Share Files or Content
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <form method="POST" enctype="multipart/form-data">
+                                <div class="mb-3">
+                                    <label for="title" class="form-label">Title</label>
+                                    <input type="text" class="form-control" id="title" name="title" placeholder="Enter title">
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="text" class="form-label">Description</label>
+                                    <textarea class="form-control" id="text" name="text" rows="3" placeholder="Enter description"></textarea>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="url" class="form-label">URL</label>
+                                    <input type="url" class="form-control" id="url" name="url" placeholder="Enter URL">
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="files" class="form-label">Files</label>
+                                    <input type="file" class="form-control" id="files" name="files" multiple accept="image/*,text/*,.pdf,.csv,.xlsx">
+                                    <div class="form-text">You can select multiple files (images, documents, spreadsheets)</div>
+                                </div>
+                                
+                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                    <a href="{{ url_for('dashboard') }}" class="btn btn-secondary me-md-2">
+                                        <i class="fas fa-times me-2"></i>Cancel
+                                    </a>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-share me-2"></i>Share
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div class="card mt-4">
+                        <div class="card-body">
+                            <h6 class="card-title">
+                                <i class="fas fa-info-circle me-2"></i>
+                                About Sharing
+                            </h6>
+                            <p class="card-text text-muted">
+                                This feature allows you to share content from other apps directly to the School Management System. 
+                                Shared content will be processed and made available in your dashboard.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
