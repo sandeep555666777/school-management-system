@@ -1,0 +1,415 @@
+{% extends "base.html" %}
+
+{% block title %}My Timetable - School Management System{% endblock %}
+
+{% block main_content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">
+        <i class="fas fa-calendar-alt me-2"></i>
+        My Timetable
+    </h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <button type="button" class="btn btn-primary">
+            <i class="fas fa-download me-2"></i>
+            Download PDF
+        </button>
+    </div>
+</div>
+
+<!-- Current Week Info -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h5 class="card-title mb-1">
+                            <i class="fas fa-calendar-week me-2"></i>
+                            Week of January 15 - 19, 2024
+                        </h5>
+                        <p class="card-text mb-0">Academic Year 2024-25 | Semester 1</p>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-outline-light btn-sm">
+                                <i class="fas fa-chevron-left"></i> Previous
+                            </button>
+                            <button type="button" class="btn btn-outline-light btn-sm">
+                                Next <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Timetable Grid -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Weekly Schedule</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered timetable-table">
+                        <thead class="table-dark">
+                            <tr>
+                                <th style="width: 100px;">Time</th>
+                                <th>Monday</th>
+                                <th>Tuesday</th>
+                                <th>Wednesday</th>
+                                <th>Thursday</th>
+                                <th>Friday</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="time-slot">09:00 - 09:45</td>
+                                <td class="subject-cell mathematics">
+                                    <div class="subject-info">
+                                        <strong>Mathematics</strong><br>
+                                        <small>Mr. Smith</small><br>
+                                        <small class="text-muted">Room 101</small>
+                                    </div>
+                                </td>
+                                <td class="subject-cell english">
+                                    <div class="subject-info">
+                                        <strong>English</strong><br>
+                                        <small>Ms. Johnson</small><br>
+                                        <small class="text-muted">Room 205</small>
+                                    </div>
+                                </td>
+                                <td class="subject-cell science">
+                                    <div class="subject-info">
+                                        <strong>Science</strong><br>
+                                        <small>Dr. Brown</small><br>
+                                        <small class="text-muted">Lab 1</small>
+                                    </div>
+                                </td>
+                                <td class="subject-cell mathematics">
+                                    <div class="subject-info">
+                                        <strong>Mathematics</strong><br>
+                                        <small>Mr. Smith</small><br>
+                                        <small class="text-muted">Room 101</small>
+                                    </div>
+                                </td>
+                                <td class="subject-cell history">
+                                    <div class="subject-info">
+                                        <strong>History</strong><br>
+                                        <small>Mr. Davis</small><br>
+                                        <small class="text-muted">Room 301</small>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="time-slot">10:00 - 10:45</td>
+                                <td class="subject-cell english">
+                                    <div class="subject-info">
+                                        <strong>English</strong><br>
+                                        <small>Ms. Johnson</small><br>
+                                        <small class="text-muted">Room 205</small>
+                                    </div>
+                                </td>
+                                <td class="subject-cell science">
+                                    <div class="subject-info">
+                                        <strong>Science</strong><br>
+                                        <small>Dr. Brown</small><br>
+                                        <small class="text-muted">Lab 1</small>
+                                    </div>
+                                </td>
+                                <td class="subject-cell mathematics">
+                                    <div class="subject-info">
+                                        <strong>Mathematics</strong><br>
+                                        <small>Mr. Smith</small><br>
+                                        <small class="text-muted">Room 101</small>
+                                    </div>
+                                </td>
+                                <td class="subject-cell english">
+                                    <div class="subject-info">
+                                        <strong>English</strong><br>
+                                        <small>Ms. Johnson</small><br>
+                                        <small class="text-muted">Room 205</small>
+                                    </div>
+                                </td>
+                                <td class="subject-cell science">
+                                    <div class="subject-info">
+                                        <strong>Science</strong><br>
+                                        <small>Dr. Brown</small><br>
+                                        <small class="text-muted">Lab 1</small>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="break-row">
+                                <td class="time-slot">10:45 - 11:00</td>
+                                <td colspan="5" class="break-cell">
+                                    <i class="fas fa-coffee me-2"></i>Break
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="time-slot">11:00 - 11:45</td>
+                                <td class="subject-cell history">
+                                    <div class="subject-info">
+                                        <strong>History</strong><br>
+                                        <small>Mr. Davis</small><br>
+                                        <small class="text-muted">Room 301</small>
+                                    </div>
+                                </td>
+                                <td class="subject-cell mathematics">
+                                    <div class="subject-info">
+                                        <strong>Mathematics</strong><br>
+                                        <small>Mr. Smith</small><br>
+                                        <small class="text-muted">Room 101</small>
+                                    </div>
+                                </td>
+                                <td class="subject-cell english">
+                                    <div class="subject-info">
+                                        <strong>English</strong><br>
+                                        <small>Ms. Johnson</small><br>
+                                        <small class="text-muted">Room 205</small>
+                                    </div>
+                                </td>
+                                <td class="subject-cell science">
+                                    <div class="subject-info">
+                                        <strong>Science</strong><br>
+                                        <small>Dr. Brown</small><br>
+                                        <small class="text-muted">Lab 1</small>
+                                    </div>
+                                </td>
+                                <td class="subject-cell mathematics">
+                                    <div class="subject-info">
+                                        <strong>Mathematics</strong><br>
+                                        <small>Mr. Smith</small><br>
+                                        <small class="text-muted">Room 101</small>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="time-slot">12:00 - 12:45</td>
+                                <td class="subject-cell science">
+                                    <div class="subject-info">
+                                        <strong>Science</strong><br>
+                                        <small>Dr. Brown</small><br>
+                                        <small class="text-muted">Lab 1</small>
+                                    </div>
+                                </td>
+                                <td class="subject-cell history">
+                                    <div class="subject-info">
+                                        <strong>History</strong><br>
+                                        <small>Mr. Davis</small><br>
+                                        <small class="text-muted">Room 301</small>
+                                    </div>
+                                </td>
+                                <td class="subject-cell pe">
+                                    <div class="subject-info">
+                                        <strong>Physical Ed.</strong><br>
+                                        <small>Coach Wilson</small><br>
+                                        <small class="text-muted">Gym</small>
+                                    </div>
+                                </td>
+                                <td class="subject-cell history">
+                                    <div class="subject-info">
+                                        <strong>History</strong><br>
+                                        <small>Mr. Davis</small><br>
+                                        <small class="text-muted">Room 301</small>
+                                    </div>
+                                </td>
+                                <td class="subject-cell english">
+                                    <div class="subject-info">
+                                        <strong>English</strong><br>
+                                        <small>Ms. Johnson</small><br>
+                                        <small class="text-muted">Room 205</small>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="break-row">
+                                <td class="time-slot">12:45 - 13:30</td>
+                                <td colspan="5" class="break-cell">
+                                    <i class="fas fa-utensils me-2"></i>Lunch Break
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="time-slot">13:30 - 14:15</td>
+                                <td class="subject-cell art">
+                                    <div class="subject-info">
+                                        <strong>Art</strong><br>
+                                        <small>Ms. Garcia</small><br>
+                                        <small class="text-muted">Art Room</small>
+                                    </div>
+                                </td>
+                                <td class="subject-cell pe">
+                                    <div class="subject-info">
+                                        <strong>Physical Ed.</strong><br>
+                                        <small>Coach Wilson</small><br>
+                                        <small class="text-muted">Gym</small>
+                                    </div>
+                                </td>
+                                <td class="subject-cell music">
+                                    <div class="subject-info">
+                                        <strong>Music</strong><br>
+                                        <small>Mr. Taylor</small><br>
+                                        <small class="text-muted">Music Room</small>
+                                    </div>
+                                </td>
+                                <td class="subject-cell art">
+                                    <div class="subject-info">
+                                        <strong>Art</strong><br>
+                                        <small>Ms. Garcia</small><br>
+                                        <small class="text-muted">Art Room</small>
+                                    </div>
+                                </td>
+                                <td class="subject-cell pe">
+                                    <div class="subject-info">
+                                        <strong>Physical Ed.</strong><br>
+                                        <small>Coach Wilson</small><br>
+                                        <small class="text-muted">Gym</small>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Today's Classes -->
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-clock me-2"></i>
+                    Today's Classes
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="list-group list-group-flush">
+                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>Mathematics</strong><br>
+                            <small class="text-muted">09:00 - 09:45 | Room 101</small>
+                        </div>
+                        <span class="badge bg-primary">Next</span>
+                    </div>
+                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>English</strong><br>
+                            <small class="text-muted">10:00 - 10:45 | Room 205</small>
+                        </div>
+                        <span class="badge bg-secondary">Upcoming</span>
+                    </div>
+                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>History</strong><br>
+                            <small class="text-muted">11:00 - 11:45 | Room 301</small>
+                        </div>
+                        <span class="badge bg-secondary">Upcoming</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Important Notes
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info">
+                    <i class="fas fa-exclamation-circle me-2"></i>
+                    <strong>Science Lab:</strong> Bring your lab manual for tomorrow's experiment.
+                </div>
+                <div class="alert alert-warning">
+                    <i class="fas fa-calendar-times me-2"></i>
+                    <strong>Schedule Change:</strong> Friday's Math class moved to Room 102.
+                </div>
+                <div class="alert alert-success">
+                    <i class="fas fa-trophy me-2"></i>
+                    <strong>Reminder:</strong> Art project submission due next Monday.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<style>
+.timetable-table {
+    font-size: 0.9rem;
+}
+
+.time-slot {
+    background-color: #f8f9fa;
+    font-weight: bold;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.subject-cell {
+    padding: 8px;
+    text-align: center;
+    vertical-align: middle;
+    height: 80px;
+}
+
+.subject-info {
+    line-height: 1.2;
+}
+
+.break-cell {
+    background-color: #e9ecef;
+    text-align: center;
+    font-weight: bold;
+    color: #6c757d;
+}
+
+.break-row {
+    background-color: #f8f9fa;
+}
+
+/* Subject color coding */
+.mathematics {
+    background-color: #e3f2fd;
+    border-left: 4px solid #2196f3;
+}
+
+.english {
+    background-color: #f3e5f5;
+    border-left: 4px solid #9c27b0;
+}
+
+.science {
+    background-color: #e8f5e8;
+    border-left: 4px solid #4caf50;
+}
+
+.history {
+    background-color: #fff3e0;
+    border-left: 4px solid #ff9800;
+}
+
+.art {
+    background-color: #fce4ec;
+    border-left: 4px solid #e91e63;
+}
+
+.pe {
+    background-color: #e0f2f1;
+    border-left: 4px solid #009688;
+}
+
+.music {
+    background-color: #f1f8e9;
+    border-left: 4px solid #8bc34a;
+}
+</style>
+{% endblock %}

@@ -1,0 +1,425 @@
+{% extends "base.html" %}
+
+{% block title %}Parent Dashboard - School Management System{% endblock %}
+
+{% block main_content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">
+        <i class="fas fa-users me-2"></i>
+        Parent Dashboard
+    </h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+            <button type="button" class="btn btn-sm btn-outline-secondary">
+                <i class="fas fa-envelope me-1"></i>
+                Message Teachers
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Welcome Message -->
+<div class="alert alert-info" role="alert">
+    <i class="fas fa-info-circle me-2"></i>
+    Welcome, {{ current_user.first_name }}! Here's an overview of your children's academic progress.
+</div>
+
+<!-- Children Overview Cards -->
+<div class="row g-4 mb-4">
+    <div class="col-md-6">
+        <div class="card border-primary">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-child me-2"></i>
+                    Emma Johnson (Grade 5-A)
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="text-center">
+                            <h4 class="text-success">92%</h4>
+                            <small class="text-muted">Overall Grade</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="text-center">
+                            <h4 class="text-primary">95%</h4>
+                            <small class="text-muted">Attendance</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="small">Mathematics</span>
+                        <span class="badge bg-success">A</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="small">Science</span>
+                        <span class="badge bg-success">B+</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="small">English</span>
+                        <span class="badge bg-success">A-</span>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <button class="btn btn-outline-primary btn-sm me-2">View Details</button>
+                    <button class="btn btn-outline-success btn-sm">Message Teacher</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card border-success">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-child me-2"></i>
+                    Michael Johnson (Grade 3-B)
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="text-center">
+                            <h4 class="text-success">88%</h4>
+                            <small class="text-muted">Overall Grade</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="text-center">
+                            <h4 class="text-primary">92%</h4>
+                            <small class="text-muted">Attendance</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="small">Mathematics</span>
+                        <span class="badge bg-primary">B+</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="small">Reading</span>
+                        <span class="badge bg-success">A</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="small">Art</span>
+                        <span class="badge bg-success">A</span>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <button class="btn btn-outline-primary btn-sm me-2">View Details</button>
+                    <button class="btn btn-outline-success btn-sm">Message Teacher</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Activities and Notifications -->
+<div class="row g-4 mb-4">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-clock me-2"></i>
+                    Recent Activities
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Child</th>
+                                <th>Activity</th>
+                                <th>Details</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Today</td>
+                                <td>Emma</td>
+                                <td>Math Quiz</td>
+                                <td>Scored 95/100</td>
+                                <td><span class="badge bg-success">Excellent</span></td>
+                            </tr>
+                            <tr>
+                                <td>Yesterday</td>
+                                <td>Michael</td>
+                                <td>Art Project</td>
+                                <td>Submitted on time</td>
+                                <td><span class="badge bg-success">Completed</span></td>
+                            </tr>
+                            <tr>
+                                <td>2 days ago</td>
+                                <td>Emma</td>
+                                <td>Science Test</td>
+                                <td>Scored 88/100</td>
+                                <td><span class="badge bg-primary">Good</span></td>
+                            </tr>
+                            <tr>
+                                <td>3 days ago</td>
+                                <td>Michael</td>
+                                <td>Reading Assignment</td>
+                                <td>Completed 5 books</td>
+                                <td><span class="badge bg-success">Outstanding</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-bell me-2"></i>
+                    Notifications
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="list-group list-group-flush">
+                    <div class="list-group-item px-0">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">Parent-Teacher Meeting</h6>
+                            <small class="text-primary">Tomorrow</small>
+                        </div>
+                        <p class="mb-1 small">Meeting with Emma's teacher at 3:00 PM</p>
+                    </div>
+                    <div class="list-group-item px-0">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">Fee Payment Due</h6>
+                            <small class="text-warning">In 5 days</small>
+                        </div>
+                        <p class="mb-1 small">Monthly fee payment for both children</p>
+                    </div>
+                    <div class="list-group-item px-0">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">School Event</h6>
+                            <small class="text-info">Next week</small>
+                        </div>
+                        <p class="mb-1 small">Annual Science Fair - volunteers needed</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card mt-3">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-dollar-sign me-2"></i>
+                    Fee Status
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between">
+                        <span class="small">Emma - October</span>
+                        <span class="badge bg-success">Paid</span>
+                    </div>
+                    <div class="d-flex justify-content-between mt-1">
+                        <span class="small">Michael - October</span>
+                        <span class="badge bg-success">Paid</span>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between">
+                        <span class="small">Emma - November</span>
+                        <span class="badge bg-warning">Due in 5 days</span>
+                    </div>
+                    <div class="d-flex justify-content-between mt-1">
+                        <span class="small">Michael - November</span>
+                        <span class="badge bg-warning">Due in 5 days</span>
+                    </div>
+                </div>
+                <button class="btn btn-primary btn-sm w-100">Pay Fees</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Attendance and Performance Charts -->
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-chart-line me-2"></i>
+                    Academic Performance
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-4">
+                    <h6>Emma Johnson</h6>
+                    <div class="row">
+                        <div class="col-4 text-center">
+                            <div class="text-success">
+                                <i class="fas fa-arrow-up"></i>
+                                <strong>92%</strong>
+                            </div>
+                            <small class="text-muted">Overall</small>
+                        </div>
+                        <div class="col-4 text-center">
+                            <div class="text-primary">
+                                <i class="fas fa-equals"></i>
+                                <strong>95%</strong>
+                            </div>
+                            <small class="text-muted">Math</small>
+                        </div>
+                        <div class="col-4 text-center">
+                            <div class="text-warning">
+                                <i class="fas fa-arrow-down"></i>
+                                <strong>88%</strong>
+                            </div>
+                            <small class="text-muted">Science</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h6>Michael Johnson</h6>
+                    <div class="row">
+                        <div class="col-4 text-center">
+                            <div class="text-success">
+                                <i class="fas fa-arrow-up"></i>
+                                <strong>88%</strong>
+                            </div>
+                            <small class="text-muted">Overall</small>
+                        </div>
+                        <div class="col-4 text-center">
+                            <div class="text-success">
+                                <i class="fas fa-arrow-up"></i>
+                                <strong>90%</strong>
+                            </div>
+                            <small class="text-muted">Reading</small>
+                        </div>
+                        <div class="col-4 text-center">
+                            <div class="text-primary">
+                                <i class="fas fa-equals"></i>
+                                <strong>85%</strong>
+                            </div>
+                            <small class="text-muted">Math</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-calendar-check me-2"></i>
+                    Attendance Overview
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-4">
+                    <h6>Emma Johnson</h6>
+                    <div class="progress mb-2">
+                        <div class="progress-bar bg-success" style="width: 95%">95%</div>
+                    </div>
+                    <div class="row text-center">
+                        <div class="col-4">
+                            <small class="text-success">142 Present</small>
+                        </div>
+                        <div class="col-4">
+                            <small class="text-danger">8 Absent</small>
+                        </div>
+                        <div class="col-4">
+                            <small class="text-warning">3 Late</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h6>Michael Johnson</h6>
+                    <div class="progress mb-2">
+                        <div class="progress-bar bg-success" style="width: 92%">92%</div>
+                    </div>
+                    <div class="row text-center">
+                        <div class="col-4">
+                            <small class="text-success">138 Present</small>
+                        </div>
+                        <div class="col-4">
+                            <small class="text-danger">12 Absent</small>
+                        </div>
+                        <div class="col-4">
+                            <small class="text-warning">5 Late</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Communication Section -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-comments me-2"></i>
+                    Recent Communications
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>From</th>
+                                <th>Subject</th>
+                                <th>Child</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Today</td>
+                                <td>Ms. Davis (Science Teacher)</td>
+                                <td>Emma's excellent performance in Science Fair</td>
+                                <td>Emma</td>
+                                <td><span class="badge bg-info">New</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary">Reply</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Yesterday</td>
+                                <td>Mr. Wilson (Class Teacher)</td>
+                                <td>Michael's reading progress update</td>
+                                <td>Michael</td>
+                                <td><span class="badge bg-success">Read</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-secondary">View</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2 days ago</td>
+                                <td>School Administration</td>
+                                <td>Parent-Teacher meeting schedule</td>
+                                <td>Both</td>
+                                <td><span class="badge bg-success">Read</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-secondary">View</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

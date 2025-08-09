@@ -1,0 +1,265 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Teachers - School Management System{% endblock %}
+
+{% block main_content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">
+        <i class="fas fa-chalkboard-teacher me-2"></i>
+        Manage Teachers
+    </h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTeacherModal">
+            <i class="fas fa-plus me-2"></i>
+            Add New Teacher
+        </button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Teachers List</h5>
+            </div>
+            <div class="card-body">
+                {% if teachers %}
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Teacher ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Specialization</th>
+                                <th>Qualification</th>
+                                <th>Experience</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for teacher, user in teachers %}
+                            <tr>
+                                <td>{{ teacher.teacher_id }}</td>
+                                <td>{{ user.first_name }} {{ user.last_name }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.phone or 'N/A' }}</td>
+                                <td>{{ teacher.subject_specialization or 'N/A' }}</td>
+                                <td>{{ teacher.qualification or 'N/A' }}</td>
+                                <td>{{ teacher.experience_years or 0 }} years</td>
+                                <td>
+                                    {% if user.is_active %}
+                                        <span class="badge bg-success">Active</span>
+                                    {% else %}
+                                        <span class="badge bg-danger">Inactive</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="btn-group btn-group-sm" role="group">
+                                        <button type="button" class="btn btn-outline-primary" title="View" onclick="viewTeacher({{ teacher.id }})">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-warning" title="Edit" onclick="editTeacher({{ teacher.id }})">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-danger" title="Delete" onclick="deleteTeacher({{ teacher.id }})">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-4">
+                    <i class="fas fa-chalkboard-teacher fa-3x text-muted mb-3"></i>
+                    <h5 class="text-muted">No teachers found</h5>
+                    <p class="text-muted">Start by adding your first teacher to the system.</p>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTeacherModal">
+                        <i class="fas fa-plus me-2"></i>
+                        Add First Teacher
+                    </button>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Statistics Cards -->
+<div class="row mt-4">
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-users fa-2x text-primary mb-2"></i>
+                <h5 class="card-title">{{ teachers|length }}</h5>
+                <p class="card-text text-muted">Total Teachers</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-user-check fa-2x text-success mb-2"></i>
+                <h5 class="card-title">{{ teachers|selectattr('1.is_active')|list|length }}</h5>
+                <p class="card-text text-muted">Active Teachers</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-graduation-cap fa-2x text-info mb-2"></i>
+                <h5 class="card-title">{{ teachers|selectattr('0.qualification')|list|length }}</h5>
+                <p class="card-text text-muted">Qualified</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-clock fa-2x text-warning mb-2"></i>
+                <h5 class="card-title">{{ (teachers|map(attribute='0.experience_years')|select|sum / teachers|length)|round(1) if teachers else 0 }}</h5>
+                <p class="card-text text-muted">Avg Experience</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Teacher Modal -->
+<div class="modal fade" id="addTeacherModal" tabindex="-1" aria-labelledby="addTeacherModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addTeacherModalLabel">
+                    <i class="fas fa-user-plus me-2"></i>Add New Teacher
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="addTeacherForm" action="{{ url_for('add_teacher') }}" method="POST">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="teacherFirstName" class="form-label">First Name *</label>
+                            <input type="text" class="form-control" id="teacherFirstName" name="first_name" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="teacherLastName" class="form-label">Last Name *</label>
+                            <input type="text" class="form-control" id="teacherLastName" name="last_name" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="teacherEmail" class="form-label">Email *</label>
+                            <input type="email" class="form-control" id="teacherEmail" name="email" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="teacherPhone" class="form-label">Phone *</label>
+                            <input type="tel" class="form-control" id="teacherPhone" name="phone" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="teacherSpecialization" class="form-label">Specialization *</label>
+                            <select class="form-select" id="teacherSpecialization" name="specialization" required>
+                                <option value="">Select Specialization</option>
+                                <option value="Mathematics">Mathematics</option>
+                                <option value="Science">Science</option>
+                                <option value="English">English</option>
+                                <option value="History">History</option>
+                                <option value="Geography">Geography</option>
+                                <option value="Physics">Physics</option>
+                                <option value="Chemistry">Chemistry</option>
+                                <option value="Biology">Biology</option>
+                                <option value="Computer Science">Computer Science</option>
+                                <option value="Physical Education">Physical Education</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="teacherQualification" class="form-label">Qualification *</label>
+                            <input type="text" class="form-control" id="teacherQualification" name="qualification" placeholder="e.g., M.Sc, B.Ed" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="teacherExperience" class="form-label">Experience (Years) *</label>
+                            <input type="number" class="form-control" id="teacherExperience" name="experience_years" min="0" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="teacherSalary" class="form-label">Salary</label>
+                            <input type="number" class="form-control" id="teacherSalary" name="salary" step="0.01">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="teacherDateOfBirth" class="form-label">Date of Birth</label>
+                            <input type="date" class="form-control" id="teacherDateOfBirth" name="date_of_birth">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="teacherHireDate" class="form-label">Hire Date *</label>
+                            <input type="date" class="form-control" id="teacherHireDate" name="hire_date" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="teacherAddress" class="form-label">Address</label>
+                        <textarea class="form-control" id="teacherAddress" name="address" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-2"></i>Add Teacher
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Add Teacher form submission
+document.getElementById('addTeacherForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    
+    fetch(this.action, {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (response.ok) {
+            alert('Teacher added successfully!');
+            location.reload();
+        } else {
+            alert('Error adding teacher. Please try again.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while adding the teacher.');
+    });
+});
+
+// Edit and delete functionality
+function editTeacher(teacherId) {
+    alert('Edit teacher functionality - Teacher ID: ' + teacherId);
+}
+
+function deleteTeacher(teacherId) {
+    if (confirm('Are you sure you want to delete this teacher?')) {
+        alert('Delete teacher functionality - Teacher ID: ' + teacherId);
+    }
+}
+
+function viewTeacher(teacherId) {
+    alert('View teacher details - Teacher ID: ' + teacherId);
+}
+</script>
+{% endblock %}

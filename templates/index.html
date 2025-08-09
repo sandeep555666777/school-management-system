@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="text-center mb-5">
+            <h1 class="display-4 fw-bold text-primary">
+                <i class="fas fa-graduation-cap me-3"></i>
+                School Management System
+            </h1>
+            <p class="lead text-muted">Comprehensive solution for managing students, teachers, classes, and more</p>
+        </div>
+
+        <div class="row g-4 mb-5">
+            <div class="col-md-6">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <i class="fas fa-user-graduate fa-3x text-primary mb-3"></i>
+                        <h5 class="card-title">Student Management</h5>
+                        <p class="card-text">Manage student profiles, enrollment, grades, and attendance tracking.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <i class="fas fa-chalkboard-teacher fa-3x text-success mb-3"></i>
+                        <h5 class="card-title">Teacher Portal</h5>
+                        <p class="card-text">Teacher profiles, subject assignments, and class management tools.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <i class="fas fa-dollar-sign fa-3x text-warning mb-3"></i>
+                        <h5 class="card-title">Fee Management</h5>
+                        <p class="card-text">Track payments, generate invoices, and manage financial records.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <i class="fas fa-book-open fa-3x text-info mb-3"></i>
+                        <h5 class="card-title">Library System</h5>
+                        <p class="card-text">Manage books, track borrowing, and handle library operations.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg px-5">
+                <i class="fas fa-sign-in-alt me-2"></i>
+                Login to System
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">System Features</h5>
+                <div class="row">
+                    <div class="col-md-4">
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check text-success me-2"></i>Student Enrollment</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Attendance Tracking</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Grade Management</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Class Scheduling</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check text-success me-2"></i>Teacher Management</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Subject Assignment</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Timetable Management</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Parent Portal</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check text-success me-2"></i>Fee Collection</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Library Management</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Reports & Analytics</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Mobile Responsive</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,321 @@
+{% extends "base.html" %}
+
+{% block title %}My Attendance - School Management System{% endblock %}
+
+{% block main_content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">
+        <i class="fas fa-calendar-check me-2"></i>
+        My Attendance
+    </h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <button type="button" class="btn btn-primary">
+            <i class="fas fa-download me-2"></i>
+            Download Report
+        </button>
+    </div>
+</div>
+
+<!-- Attendance Overview Cards -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-percentage fa-2x text-success mb-2"></i>
+                <h5 class="card-title">92.5%</h5>
+                <p class="card-text text-muted">Overall Attendance</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-calendar-day fa-2x text-primary mb-2"></i>
+                <h5 class="card-title">148</h5>
+                <p class="card-text text-muted">Days Present</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-calendar-times fa-2x text-danger mb-2"></i>
+                <h5 class="card-title">12</h5>
+                <p class="card-text text-muted">Days Absent</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-clock fa-2x text-warning mb-2"></i>
+                <h5 class="card-title">5</h5>
+                <p class="card-text text-muted">Late Arrivals</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Filter Section -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label class="form-label">Subject</label>
+                        <select class="form-select">
+                            <option value="">All Subjects</option>
+                            <option value="mathematics">Mathematics</option>
+                            <option value="english">English</option>
+                            <option value="science">Science</option>
+                            <option value="history">History</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Month</label>
+                        <select class="form-select">
+                            <option value="">All Months</option>
+                            <option value="01">January</option>
+                            <option value="02">February</option>
+                            <option value="03">March</option>
+                            <option value="04">April</option>
+                            <option value="05">May</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Status</label>
+                        <select class="form-select">
+                            <option value="">All Status</option>
+                            <option value="present">Present</option>
+                            <option value="absent">Absent</option>
+                            <option value="late">Late</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">&nbsp;</label>
+                        <div class="d-grid">
+                            <button type="button" class="btn btn-outline-primary">
+                                <i class="fas fa-filter me-2"></i>
+                                Filter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Attendance Calendar -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Attendance Calendar - January 2024</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="calendar-grid">
+                            <div class="row text-center fw-bold mb-2">
+                                <div class="col">Sun</div>
+                                <div class="col">Mon</div>
+                                <div class="col">Tue</div>
+                                <div class="col">Wed</div>
+                                <div class="col">Thu</div>
+                                <div class="col">Fri</div>
+                                <div class="col">Sat</div>
+                            </div>
+                            <!-- Sample calendar days -->
+                            <div class="row text-center mb-1">
+                                <div class="col"><span class="calendar-day weekend">31</span></div>
+                                <div class="col"><span class="calendar-day present">1</span></div>
+                                <div class="col"><span class="calendar-day present">2</span></div>
+                                <div class="col"><span class="calendar-day present">3</span></div>
+                                <div class="col"><span class="calendar-day present">4</span></div>
+                                <div class="col"><span class="calendar-day present">5</span></div>
+                                <div class="col"><span class="calendar-day weekend">6</span></div>
+                            </div>
+                            <div class="row text-center mb-1">
+                                <div class="col"><span class="calendar-day weekend">7</span></div>
+                                <div class="col"><span class="calendar-day present">8</span></div>
+                                <div class="col"><span class="calendar-day absent">9</span></div>
+                                <div class="col"><span class="calendar-day present">10</span></div>
+                                <div class="col"><span class="calendar-day late">11</span></div>
+                                <div class="col"><span class="calendar-day present">12</span></div>
+                                <div class="col"><span class="calendar-day weekend">13</span></div>
+                            </div>
+                            <!-- Add more weeks as needed -->
+                        </div>
+                        
+                        <div class="mt-3">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <span class="badge bg-success me-2">●</span> Present
+                                </div>
+                                <div class="col-md-3">
+                                    <span class="badge bg-danger me-2">●</span> Absent
+                                </div>
+                                <div class="col-md-3">
+                                    <span class="badge bg-warning me-2">●</span> Late
+                                </div>
+                                <div class="col-md-3">
+                                    <span class="badge bg-secondary me-2">●</span> Weekend/Holiday
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Detailed Attendance Records -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Attendance Records</h5>
+            </div>
+            <div class="card-body">
+                {% if attendance %}
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Date</th>
+                                <th>Subject</th>
+                                <th>Teacher</th>
+                                <th>Status</th>
+                                <th>Time In</th>
+                                <th>Time Out</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for record in attendance %}
+                            <tr>
+                                <td>{{ record.date.strftime('%Y-%m-%d') if record.date else 'N/A' }}</td>
+                                <td>{{ record.subject.name if record.subject else 'N/A' }}</td>
+                                <td>{{ record.teacher.user.first_name if record.teacher else 'N/A' }} {{ record.teacher.user.last_name if record.teacher else '' }}</td>
+                                <td>
+                                    {% if record.status == 'present' %}
+                                        <span class="badge bg-success">Present</span>
+                                    {% elif record.status == 'absent' %}
+                                        <span class="badge bg-danger">Absent</span>
+                                    {% elif record.status == 'late' %}
+                                        <span class="badge bg-warning">Late</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">{{ record.status.title() }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ record.time_in.strftime('%H:%M') if record.time_in else 'N/A' }}</td>
+                                <td>{{ record.time_out.strftime('%H:%M') if record.time_out else 'N/A' }}</td>
+                                <td>{{ record.remarks or '-' }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-4">
+                    <i class="fas fa-calendar-check fa-3x text-muted mb-3"></i>
+                    <h5 class="text-muted">No attendance records found</h5>
+                    <p class="text-muted">Your attendance records will appear here once teachers mark attendance.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Monthly Attendance Chart -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Monthly Attendance Trend</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="attendanceChart" height="100"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+// Attendance Chart
+const ctx = document.getElementById('attendanceChart').getContext('2d');
+const attendanceChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        datasets: [{
+            label: 'Attendance %',
+            data: [95, 88, 92, 85, 90, 93],
+            borderColor: 'rgba(75, 192, 192, 1)',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderWidth: 2,
+            fill: true
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: 100
+            }
+        },
+        plugins: {
+            legend: {
+                display: false
+            }
+        }
+    }
+});
+</script>
+
+<style>
+.calendar-day {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 12px;
+    margin: 2px;
+}
+
+.calendar-day.present {
+    background-color: #28a745;
+    color: white;
+}
+
+.calendar-day.absent {
+    background-color: #dc3545;
+    color: white;
+}
+
+.calendar-day.late {
+    background-color: #ffc107;
+    color: black;
+}
+
+.calendar-day.weekend {
+    background-color: #6c757d;
+    color: white;
+}
+
+.calendar-day:not(.present):not(.absent):not(.late):not(.weekend) {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+}
+</style>
+{% endblock %}

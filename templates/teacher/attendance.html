@@ -1,0 +1,471 @@
+{% extends "base.html" %}
+
+{% block title %}Mark Attendance - School Management System{% endblock %}
+
+{% block main_content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">
+        <i class="fas fa-calendar-check me-2"></i>
+        Mark Attendance
+    </h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+            <button type="button" class="btn btn-sm btn-outline-secondary">
+                <i class="fas fa-history me-1"></i>
+                View History
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Class Selection -->
+<div class="row mb-4">
+    <div class="col-md-4">
+        <label class="form-label">Select Class</label>
+        <select class="form-select" id="classSelect">
+            <option value="">Choose a class...</option>
+            {% for assignment in assignments %}
+            <option value="{{ assignment.class_id }}" data-subject="{{ assignment.subject_id }}">{{ assignment.school_class.name }} - {{ assignment.subject.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-md-3">
+        <label class="form-label">Date</label>
+        <input type="date" class="form-control" id="attendanceDate" value="{{ date.today().strftime('%Y-%m-%d') }}">
+    </div>
+    <div class="col-md-3">
+        <label class="form-label">Subject</label>
+        <select class="form-select" id="subjectSelect">
+            <option value="">Select subject...</option>
+            {% for assignment in assignments %}
+            <option value="{{ assignment.subject.id }}">{{ assignment.subject.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-md-2">
+        <label class="form-label">&nbsp;</label>
+        <button type="button" class="btn btn-primary w-100" onclick="loadStudents()">
+            <i class="fas fa-search me-1"></i>
+            Load Students
+        </button>
+    </div>
+</div>
+
+<!-- Attendance Form -->
+<div class="card" id="attendanceCard" style="display: none;">
+    <div class="card-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">
+                <i class="fas fa-users me-2"></i>
+                Grade 5-A - Mathematics
+                <small class="text-muted ms-2">{{ date.today().strftime('%B %d, %Y') }}</small>
+            </h5>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-sm btn-success" onclick="markAll('present')">
+                    <i class="fas fa-check-double me-1"></i>
+                    Mark All Present
+                </button>
+                <button type="button" class="btn btn-sm btn-danger" onclick="markAll('absent')">
+                    <i class="fas fa-times-circle me-1"></i>
+                    Mark All Absent
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <form id="attendanceForm">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th width="5%">#</th>
+                            <th width="15%">Student ID</th>
+                            <th width="25%">Name</th>
+                            <th width="20%">Status</th>
+                            <th width="35%">Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentsTableBody">
+                        <tr>
+                            <td>1</td>
+                            <td>STU001</td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar-sm bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2">
+                                        JD
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold">John Doe</div>
+                                        <small class="text-muted">Roll No: 1</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <input type="radio" class="btn-check" name="attendance_1" id="present_1" value="present" checked>
+                                    <label class="btn btn-outline-success btn-sm" for="present_1">
+                                        <i class="fas fa-check me-1"></i>Present
+                                    </label>
+                                    
+                                    <input type="radio" class="btn-check" name="attendance_1" id="absent_1" value="absent">
+                                    <label class="btn btn-outline-danger btn-sm" for="absent_1">
+                                        <i class="fas fa-times me-1"></i>Absent
+                                    </label>
+                                    
+                                    <input type="radio" class="btn-check" name="attendance_1" id="late_1" value="late">
+                                    <label class="btn btn-outline-warning btn-sm" for="late_1">
+                                        <i class="fas fa-clock me-1"></i>Late
+                                    </label>
+                                </div>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control form-control-sm" name="remarks_1" placeholder="Optional remarks...">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>STU002</td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar-sm bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-2">
+                                        JS
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold">Jane Smith</div>
+                                        <small class="text-muted">Roll No: 2</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <input type="radio" class="btn-check" name="attendance_2" id="present_2" value="present" checked>
+                                    <label class="btn btn-outline-success btn-sm" for="present_2">
+                                        <i class="fas fa-check me-1"></i>Present
+                                    </label>
+                                    
+                                    <input type="radio" class="btn-check" name="attendance_2" id="absent_2" value="absent">
+                                    <label class="btn btn-outline-danger btn-sm" for="absent_2">
+                                        <i class="fas fa-times me-1"></i>Absent
+                                    </label>
+                                    
+                                    <input type="radio" class="btn-check" name="attendance_2" id="late_2" value="late">
+                                    <label class="btn btn-outline-warning btn-sm" for="late_2">
+                                        <i class="fas fa-clock me-1"></i>Late
+                                    </label>
+                                </div>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control form-control-sm" name="remarks_2" placeholder="Optional remarks...">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>STU003</td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar-sm bg-info text-white rounded-circle d-flex align-items-center justify-content-center me-2">
+                                        EJ
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold">Emma Johnson</div>
+                                        <small class="text-muted">Roll No: 3</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <input type="radio" class="btn-check" name="attendance_3" id="present_3" value="present" checked>
+                                    <label class="btn btn-outline-success btn-sm" for="present_3">
+                                        <i class="fas fa-check me-1"></i>Present
+                                    </label>
+                                    
+                                    <input type="radio" class="btn-check" name="attendance_3" id="absent_3" value="absent">
+                                    <label class="btn btn-outline-danger btn-sm" for="absent_3">
+                                        <i class="fas fa-times me-1"></i>Absent
+                                    </label>
+                                    
+                                    <input type="radio" class="btn-check" name="attendance_3" id="late_3" value="late">
+                                    <label class="btn btn-outline-warning btn-sm" for="late_3">
+                                        <i class="fas fa-clock me-1"></i>Late
+                                    </label>
+                                </div>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control form-control-sm" name="remarks_3" placeholder="Optional remarks...">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Summary -->
+            <div class="row mt-4">
+                <div class="col-md-8">
+                    <div class="row text-center">
+                        <div class="col-3">
+                            <div class="border rounded p-2">
+                                <h4 class="text-success mb-0" id="presentCount">3</h4>
+                                <small class="text-muted">Present</small>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="border rounded p-2">
+                                <h4 class="text-danger mb-0" id="absentCount">0</h4>
+                                <small class="text-muted">Absent</small>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="border rounded p-2">
+                                <h4 class="text-warning mb-0" id="lateCount">0</h4>
+                                <small class="text-muted">Late</small>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="border rounded p-2">
+                                <h4 class="text-primary mb-0" id="totalCount">3</h4>
+                                <small class="text-muted">Total</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 text-end">
+                    <button type="button" class="btn btn-secondary me-2">
+                        <i class="fas fa-save me-1"></i>
+                        Save Draft
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-check me-1"></i>
+                        Submit Attendance
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Recent Attendance History -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-history me-2"></i>
+                    Recent Attendance Records
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm table-hover">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Class</th>
+                                <th>Subject</th>
+                                <th>Present</th>
+                                <th>Absent</th>
+                                <th>Late</th>
+                                <th>Total</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Nov 15, 2023</td>
+                                <td>Grade 5-A</td>
+                                <td>Mathematics</td>
+                                <td><span class="badge bg-success">28</span></td>
+                                <td><span class="badge bg-danger">2</span></td>
+                                <td><span class="badge bg-warning">0</span></td>
+                                <td>30</td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Nov 14, 2023</td>
+                                <td>Grade 6-B</td>
+                                <td>Science</td>
+                                <td><span class="badge bg-success">25</span></td>
+                                <td><span class="badge bg-danger">3</span></td>
+                                <td><span class="badge bg-warning">1</span></td>
+                                <td>29</td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function loadStudents() {
+        const classSelect = document.getElementById('classSelect');
+        const attendanceCard = document.getElementById('attendanceCard');
+        const studentsTableBody = document.getElementById('studentsTableBody');
+        
+        if (!classSelect.value) {
+            alert('Please select a class first.');
+            return;
+        }
+        
+        // Show loading state
+        studentsTableBody.innerHTML = '<tr><td colspan="5" class="text-center"><i class="fas fa-spinner fa-spin"></i> Loading students...</td></tr>';
+        attendanceCard.style.display = 'block';
+        
+        // Fetch students for the selected class
+        fetch(`/api/students/${classSelect.value}`)
+            .then(response => response.json())
+            .then(data => {
+                let html = '';
+                data.students.forEach((student, index) => {
+                    html += `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${student.student_id}</td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar-sm bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2">
+                                        ${student.name.split(' ').map(n => n[0]).join('')}
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold">${student.name}</div>
+                                        <small class="text-muted">Roll No: ${index + 1}</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <input type="radio" class="btn-check" name="attendance_${student.id}" id="present_${student.id}" value="present" checked>
+                                    <label class="btn btn-outline-success btn-sm" for="present_${student.id}">
+                                        <i class="fas fa-check me-1"></i>Present
+                                    </label>
+                                    
+                                    <input type="radio" class="btn-check" name="attendance_${student.id}" id="absent_${student.id}" value="absent">
+                                    <label class="btn btn-outline-danger btn-sm" for="absent_${student.id}">
+                                        <i class="fas fa-times me-1"></i>Absent
+                                    </label>
+                                    
+                                    <input type="radio" class="btn-check" name="attendance_${student.id}" id="late_${student.id}" value="late">
+                                    <label class="btn btn-outline-warning btn-sm" for="late_${student.id}">
+                                        <i class="fas fa-clock me-1"></i>Late
+                                    </label>
+                                </div>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control form-control-sm" name="remarks_${student.id}" placeholder="Optional remarks...">
+                            </td>
+                        </tr>
+                    `;
+                });
+                studentsTableBody.innerHTML = html;
+                
+                // Add event listeners to new radio buttons
+                const radioButtons = document.querySelectorAll('input[type="radio"]');
+                radioButtons.forEach(radio => {
+                    radio.addEventListener('change', updateCounts);
+                });
+                
+                updateCounts();
+            })
+            .catch(error => {
+                console.error('Error loading students:', error);
+                studentsTableBody.innerHTML = '<tr><td colspan="5" class="text-center text-danger">Error loading students. Please try again.</td></tr>';
+            });
+    }
+    
+    function markAll(status) {
+        const radioButtons = document.querySelectorAll(`input[type="radio"][value="${status}"]`);
+        radioButtons.forEach(radio => {
+            radio.checked = true;
+        });
+        updateCounts();
+    }
+    
+    function updateCounts() {
+        const presentCount = document.querySelectorAll('input[type="radio"][value="present"]:checked').length;
+        const absentCount = document.querySelectorAll('input[type="radio"][value="absent"]:checked').length;
+        const lateCount = document.querySelectorAll('input[type="radio"][value="late"]:checked').length;
+        const totalCount = presentCount + absentCount + lateCount;
+        
+        document.getElementById('presentCount').textContent = presentCount;
+        document.getElementById('absentCount').textContent = absentCount;
+        document.getElementById('lateCount').textContent = lateCount;
+        document.getElementById('totalCount').textContent = totalCount;
+    }
+    
+    // Add event listeners to all radio buttons
+    document.addEventListener('DOMContentLoaded', function() {
+        const radioButtons = document.querySelectorAll('input[type="radio"]');
+        radioButtons.forEach(radio => {
+            radio.addEventListener('change', updateCounts);
+        });
+        
+        // Form submission
+        document.getElementById('attendanceForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!confirm('Are you sure you want to submit this attendance record?')) {
+                return;
+            }
+            
+            const classSelect = document.getElementById('classSelect');
+            const attendanceDate = document.getElementById('attendanceDate');
+            const subjectSelect = document.getElementById('subjectSelect');
+            
+            // Collect attendance data
+            const attendanceData = [];
+            const radioButtons = document.querySelectorAll('input[type="radio"]:checked');
+            
+            radioButtons.forEach(radio => {
+                const studentId = radio.name.split('_')[1];
+                const remarksField = document.querySelector(`input[name="remarks_${studentId}"]`);
+                
+                attendanceData.push({
+                    student_id: parseInt(studentId),
+                    status: radio.value,
+                    remarks: remarksField ? remarksField.value : ''
+                });
+            });
+            
+            // Submit to server
+            fetch('/api/attendance', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    attendance: attendanceData,
+                    date: attendanceDate.value,
+                    subject_id: subjectSelect.value,
+                    class_id: classSelect.value
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    alert('Attendance submitted successfully!');
+                    // Reset form or redirect
+                    document.getElementById('attendanceCard').style.display = 'none';
+                    classSelect.value = '';
+                } else {
+                    alert('Error: ' + (data.error || 'Unknown error'));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while submitting attendance.');
+            });
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,367 @@
+{% extends "base.html" %}
+
+{% block title %}Student Dashboard - School Management System{% endblock %}
+
+{% block main_content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">
+        <i class="fas fa-user-graduate me-2"></i>
+        Student Dashboard
+    </h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+            <button type="button" class="btn btn-sm btn-outline-secondary">
+                <i class="fas fa-download me-1"></i>
+                Download Report Card
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Welcome Message -->
+<div class="alert alert-success" role="alert">
+    <i class="fas fa-star me-2"></i>
+    Welcome back, {{ current_user.first_name }}! Your overall performance is excellent. Keep up the good work!
+</div>
+
+<!-- Statistics Cards -->
+<div class="row g-4 mb-4">
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4 class="mb-0">92%</h4>
+                        <p class="mb-0">Overall Grade</p>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-chart-line fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4 class="mb-0">95%</h4>
+                        <p class="mb-0">Attendance</p>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-calendar-check fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-warning text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4 class="mb-0">3</h4>
+                        <p class="mb-0">Pending Assignments</p>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-tasks fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4 class="mb-0">2</h4>
+                        <p class="mb-0">Books Borrowed</p>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-book fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Today's Schedule and Quick Info -->
+<div class="row g-4 mb-4">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-calendar-day me-2"></i>
+                    Today's Schedule
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Subject</th>
+                                <th>Teacher</th>
+                                <th>Room</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>09:00 - 09:45</td>
+                                <td>Mathematics</td>
+                                <td>Mr. Johnson</td>
+                                <td>Room 101</td>
+                                <td><span class="badge bg-success">Present</span></td>
+                            </tr>
+                            <tr>
+                                <td>10:00 - 10:45</td>
+                                <td>Science</td>
+                                <td>Ms. Davis</td>
+                                <td>Lab 1</td>
+                                <td><span class="badge bg-success">Present</span></td>
+                            </tr>
+                            <tr>
+                                <td>11:15 - 12:00</td>
+                                <td>English</td>
+                                <td>Mrs. Wilson</td>
+                                <td>Room 203</td>
+                                <td><span class="badge bg-warning">Upcoming</span></td>
+                            </tr>
+                            <tr>
+                                <td>01:00 - 01:45</td>
+                                <td>History</td>
+                                <td>Mr. Brown</td>
+                                <td>Room 105</td>
+                                <td><span class="badge bg-secondary">Scheduled</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-exclamation-circle me-2"></i>
+                    Pending Tasks
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="list-group list-group-flush">
+                    <div class="list-group-item px-0">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">Math Assignment</h6>
+                            <small class="text-danger">Due Tomorrow</small>
+                        </div>
+                        <p class="mb-1 small">Chapter 5 exercises</p>
+                    </div>
+                    <div class="list-group-item px-0">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">Science Project</h6>
+                            <small class="text-warning">Due in 3 days</small>
+                        </div>
+                        <p class="mb-1 small">Solar system model</p>
+                    </div>
+                    <div class="list-group-item px-0">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">English Essay</h6>
+                            <small class="text-info">Due in 1 week</small>
+                        </div>
+                        <p class="mb-1 small">My favorite book review</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card mt-3">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-trophy me-2"></i>
+                    Achievements
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                    <i class="fas fa-medal text-warning me-2"></i>
+                    <span class="small">Perfect Attendance - October</span>
+                </div>
+                <div class="d-flex align-items-center mb-2">
+                    <i class="fas fa-star text-success me-2"></i>
+                    <span class="small">Top Performer - Mathematics</span>
+                </div>
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-book text-info me-2"></i>
+                    <span class="small">Reading Champion - 15 books</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Grades and Performance -->
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-chart-bar me-2"></i>
+                    Recent Grades
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Subject</th>
+                                <th>Test Type</th>
+                                <th>Score</th>
+                                <th>Grade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Mathematics</td>
+                                <td>Quiz</td>
+                                <td>95/100</td>
+                                <td><span class="badge bg-success">A</span></td>
+                            </tr>
+                            <tr>
+                                <td>Science</td>
+                                <td>Midterm</td>
+                                <td>88/100</td>
+                                <td><span class="badge bg-success">B+</span></td>
+                            </tr>
+                            <tr>
+                                <td>English</td>
+                                <td>Essay</td>
+                                <td>92/100</td>
+                                <td><span class="badge bg-success">A-</span></td>
+                            </tr>
+                            <tr>
+                                <td>History</td>
+                                <td>Assignment</td>
+                                <td>85/100</td>
+                                <td><span class="badge bg-primary">B</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-center mt-3">
+                    <a href="{{ url_for('student_grades') }}" class="btn btn-outline-primary btn-sm">
+                        View All Grades
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-calendar-alt me-2"></i>
+                    Attendance Summary
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-4">
+                        <div class="border-end">
+                            <h4 class="text-success">142</h4>
+                            <small class="text-muted">Present</small>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="border-end">
+                            <h4 class="text-danger">8</h4>
+                            <small class="text-muted">Absent</small>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <h4 class="text-warning">3</h4>
+                        <small class="text-muted">Late</small>
+                    </div>
+                </div>
+                
+                <div class="mt-4">
+                    <h6>Monthly Attendance</h6>
+                    <div class="progress mb-2">
+                        <div class="progress-bar bg-success" style="width: 95%">95%</div>
+                    </div>
+                    <small class="text-muted">Excellent attendance record!</small>
+                </div>
+                
+                <div class="text-center mt-3">
+                    <a href="{{ url_for('student_attendance') }}" class="btn btn-outline-success btn-sm">
+                        View Detailed Attendance
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Library Books -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-book-reader me-2"></i>
+                    Library Books
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Book Title</th>
+                                <th>Author</th>
+                                <th>Issue Date</th>
+                                <th>Due Date</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>The Great Gatsby</td>
+                                <td>F. Scott Fitzgerald</td>
+                                <td>Oct 15, 2023</td>
+                                <td>Nov 15, 2023</td>
+                                <td><span class="badge bg-success">Active</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary">Renew</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>To Kill a Mockingbird</td>
+                                <td>Harper Lee</td>
+                                <td>Oct 20, 2023</td>
+                                <td>Nov 20, 2023</td>
+                                <td><span class="badge bg-success">Active</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary">Renew</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
