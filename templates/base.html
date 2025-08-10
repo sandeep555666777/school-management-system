@@ -597,10 +597,16 @@
     
     <!-- PWA Installation Script -->
     <script>
-        // Register Service Worker - Fast and reliable registration
+        // Service Worker Selection
+        const USE_WORKBOX = true; // Set to false to use minimal service worker
+        const SW_URL = USE_WORKBOX ? '/static/sw-workbox.js' : '/static/sw-minimal.js';
+        
+        // Register Service Worker - Professional Workbox or Fast Minimal
         if ('serviceWorker' in navigator && 'caches' in window) {
+            console.log(`SW: Using ${USE_WORKBOX ? 'Workbox (Professional)' : 'Minimal (Fast)'} service worker`);
+            
             // Register immediately but don't wait for it
-            navigator.serviceWorker.register('/static/sw-minimal.js', {
+            navigator.serviceWorker.register(SW_URL, {
                 scope: '/',
                 updateViaCache: 'none' // Always check for updates
             }).then(registration => {

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+  <rect width="400" height="300" fill="#f8f9fa"/>
+  <rect x="50" y="50" width="300" height="200" rx="10" fill="white" stroke="#dee2e6" stroke-width="2"/>
+  <circle cx="200" cy="120" r="30" fill="#6c757d"/>
+  <path d="M180 110 L180 130 L220 130 L220 110 Z M185 105 L185 135 L195 135 L195 145 L205 145 L205 135 L215 135 L215 105 Z" fill="white"/>
+  <text x="200" y="170" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#495057">Image Unavailable</text>
+  <text x="200" y="190" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#6c757d">Please check your connection</text>
+</svg>
