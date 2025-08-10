@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PWA Validation Test - School Management System</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        .pass { background: #d4edda; color: #155724; }
+        .fail { background: #f8d7da; color: #721c24; }
+        .pending { background: #fff3cd; color: #856404; }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #0056b3; }
+        .log {
+            background: #f8f9fa;
+            border-left: 4px solid #007bff;
+            padding: 10px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        pre { margin: 0; }
+    </style>
+</head>
+<body>
+    <h1>🧪 PWA Validation Test</h1>
+    <p>This page will test all PWA features of your School Management System.</p>
+
+    <div class="test-card">
+        <h3>📱 Service Worker Test</h3>
+        <div id="sw-status" class="status pending">Testing...</div>
+        <div id="sw-log" class="log"></div>
+        <button onclick="testServiceWorker()">Test Service Worker</button>
+    </div>
+
+    <div class="test-card">
+        <h3>📋 Manifest Test</h3>
+        <div id="manifest-status" class="status pending">Testing...</div>
+        <div id="manifest-log" class="log"></div>
+        <button onclick="testManifest()">Test Manifest</button>
+    </div>
+
+    <div class="test-card">
+        <h3>🔄 Background Sync Test</h3>
+        <div id="sync-status" class="status pending">Not Tested</div>
+        <div id="sync-log" class="log"></div>
+        <button onclick="testBackgroundSync()">Test Background Sync</button>
+    </div>
+
+    <div class="test-card">
+        <h3>📡 Offline Test</h3>
+        <div id="offline-status" class="status pending">Not Tested</div>
+        <div id="offline-log" class="log"></div>
+        <button onclick="testOffline()">Test Offline Mode</button>
+        <button onclick="goOnline()">Go Online</button>
+    </div>
+
+    <div class="test-card">
+        <h3>🔔 Install Test</h3>
+        <div id="install-status" class="status pending">Not Tested</div>
+        <div id="install-log" class="log"></div>
+        <button onclick="testInstall()">Test Install Prompt</button>
+    </div>
+
+    <div class="test-card">
+        <h3>📊 Overall PWA Score</h3>
+        <div id="overall-status" class="status pending">Run Tests</div>
+        <div id="overall-log" class="log"></div>
+        <button onclick="runAllTests()">Run All Tests</button>
+        <button onclick="openLighthouse()">Open Lighthouse</button>
+    </div>
+
+    <script>
+        let testResults = {};
+
+        function log(testName, message) {
+            const logElement = document.getElementById(`${testName}-log`);
+            logElement.innerHTML += `<pre>${new Date().toLocaleTimeString()}: ${message}</pre>`;
+            logElement.scrollTop = logElement.scrollHeight;
+        }
+
+        function setStatus(testName, status, message) {
+            const statusElement = document.getElementById(`${testName}-status`);
+            statusElement.className = `status ${status}`;
+            statusElement.textContent = message;
+            testResults[testName] = status;
+            updateOverallStatus();
+        }
+
+        async function testServiceWorker() {
+            log('sw', 'Testing service worker registration...');
+            
+            if (!('serviceWorker' in navigator)) {
+                setStatus('sw', 'fail', 'Service Workers not supported');
+                log('sw', 'ERROR: Service Workers not supported in this browser');
+                return;
+            }
+
+            try {
+                // Check if already registered
+                const registration = await navigator.serviceWorker.getRegistration();
+                if (registration) {
+                    log('sw', `Found existing registration: ${registration.scope}`);
+                    log('sw', `Active worker: ${registration.active ? 'Yes' : 'No'}`);
+                    setStatus('sw', 'pass', 'Service Worker Active');
+                } else {
+                    log('sw', 'No service worker registered');
+                    
+                    // Try to register
+                    const newRegistration = await navigator.serviceWorker.register('/static/sw-minimal.js');
+                    log('sw', `Registration successful: ${newRegistration.scope}`);
+                    setStatus('sw', 'pass', 'Service Worker Registered');
+                }
+
+                // Test caches API
+                if ('caches' in window) {
+                    const cacheNames = await caches.keys();
+                    log('sw', `Found ${cacheNames.length} caches: ${cacheNames.join(', ')}`);
+                } else {
+                    log('sw', 'Cache API not supported');
+                }
+
+            } catch (error) {
+                setStatus('sw', 'fail', 'Registration Failed');
+                log('sw', `ERROR: ${error.message}`);
+            }
+        }
+
+        async function testManifest() {
+            log('manifest', 'Testing web app manifest...');
+            
+            try {
+                const response = await fetch('/static/manifest.json');
+                const manifest = await response.json();
+                
+                log('manifest', `Manifest loaded successfully`);
+                log('manifest', `Name: ${manifest.name}`);
+                log('manifest', `Short name: ${manifest.short_name}`);
+                log('manifest', `Display: ${manifest.display}`);
+                log('manifest', `Start URL: ${manifest.start_url}`);
+                log('manifest', `Theme color: ${manifest.theme_color}`);
+                log('manifest', `Icons: ${manifest.icons ? manifest.icons.length : 0}`);
+                
+                // Validate required fields
+                const required = ['name', 'short_name', 'start_url', 'display', 'icons'];
+                const missing = required.filter(field => !manifest[field]);
+                
+                if (missing.length === 0) {
+                    setStatus('manifest', 'pass', 'Manifest Valid');
+                    log('manifest', 'All required fields present');
+                } else {
+                    setStatus('manifest', 'fail', 'Missing Fields');
+                    log('manifest', `Missing: ${missing.join(', ')}`);
+                }
+                
+            } catch (error) {
+                setStatus('manifest', 'fail', 'Manifest Error');
+                log('manifest', `ERROR: ${error.message}`);
+            }
+        }
+
+        async function testBackgroundSync() {
+            log('sync', 'Testing background sync capability...');
+            
+            if (!('serviceWorker' in navigator)) {
+                setStatus('sync', 'fail', 'No Service Worker');
+                return;
+            }
+
+            try {
+                const registration = await navigator.serviceWorker.ready;
+                
+                if ('sync' in registration) {
+                    log('sync', 'Background sync is supported');
+                    
+                    // Test sync registration
+                    await registration.sync.register('test-sync');
+                    log('sync', 'Test sync registered successfully');
+                    setStatus('sync', 'pass', 'Background Sync Ready');
+                } else {
+                    setStatus('sync', 'fail', 'Background Sync Not Supported');
+                    log('sync', 'Background sync not supported in this browser');
+                }
+            } catch (error) {
+                setStatus('sync', 'fail', 'Sync Test Failed');
+                log('sync', `ERROR: ${error.message}`);
+            }
+        }
+
+        async function testOffline() {
+            log('offline', 'Testing offline functionality...');
+            
+            // Simulate offline mode
+            if ('serviceWorker' in navigator) {
+                log('offline', 'Service worker available for offline support');
+                
+                try {
+                    // Test if offline page is cached
+                    const cache = await caches.open('school-ms-v1.4.0');
+                    const offlineResponse = await cache.match('/offline');
+                    
+                    if (offlineResponse) {
+                        log('offline', 'Offline page is cached');
+                        setStatus('offline', 'pass', 'Offline Ready');
+                    } else {
+                        log('offline', 'Offline page not cached yet');
+                        setStatus('offline', 'pending', 'Cache Building');
+                    }
+                } catch (error) {
+                    log('offline', `Cache test error: ${error.message}`);
+                    setStatus('offline', 'fail', 'Cache Error');
+                }
+            } else {
+                setStatus('offline', 'fail', 'No Offline Support');
+                log('offline', 'No service worker for offline support');
+            }
+
+            // Test network status detection
+            log('offline', `Current online status: ${navigator.onLine}`);
+        }
+
+        function goOnline() {
+            log('offline', 'Simulating online connection...');
+            window.dispatchEvent(new Event('online'));
+        }
+
+        async function testInstall() {
+            log('install', 'Testing PWA installability...');
+            
+            // Check if app is already installed
+            if (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) {
+                setStatus('install', 'pass', 'Already Installed');
+                log('install', 'App is running in standalone mode (installed)');
+                return;
+            }
+
+            // Check if install prompt is available
+            if (window.deferredPrompt) {
+                log('install', 'Install prompt is available');
+                setStatus('install', 'pass', 'Install Ready');
+            } else {
+                log('install', 'No install prompt available yet');
+                log('install', 'This is normal - prompt appears after engagement criteria are met');
+                setStatus('install', 'pending', 'Install Criteria Not Met');
+            }
+
+            // Check for manifest link
+            const manifestLink = document.querySelector('link[rel="manifest"]');
+            if (manifestLink) {
+                log('install', `Manifest link found: ${manifestLink.href}`);
+            } else {
+                log('install', 'No manifest link found in page');
+            }
+        }
+
+        function updateOverallStatus() {
+            const tests = Object.keys(testResults);
+            if (tests.length === 0) return;
+
+            const passed = tests.filter(test => testResults[test] === 'pass').length;
+            const failed = tests.filter(test => testResults[test] === 'fail').length;
+            const total = tests.length;
+
+            let status, message;
+            if (failed === 0) {
+                status = 'pass';
+                message = `All Tests Pass (${passed}/${total})`;
+            } else if (passed > failed) {
+                status = 'pending';
+                message = `Mostly Pass (${passed}/${total})`;
+            } else {
+                status = 'fail';
+                message = `Issues Found (${failed} failed)`;
+            }
+
+            setStatus('overall', status, message);
+            
+            log('overall', `Test Summary:`);
+            log('overall', `✅ Passed: ${passed}`);
+            log('overall', `❌ Failed: ${failed}`);
+            log('overall', `📊 Total: ${total}`);
+        }
+
+        async function runAllTests() {
+            log('overall', 'Running comprehensive PWA test suite...');
+            testResults = {};
+            
+            await testServiceWorker();
+            await testManifest();
+            await testBackgroundSync();
+            await testOffline();
+            await testInstall();
+            
+            log('overall', 'All tests completed!');
+        }
+
+        function openLighthouse() {
+            alert('To run Lighthouse:\n1. Open Chrome DevTools (F12)\n2. Go to Lighthouse tab\n3. Check "Progressive Web App"\n4. Click "Generate report"');
+        }
+
+        // Auto-run basic tests on load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                testServiceWorker();
+                testManifest();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

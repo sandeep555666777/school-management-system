@@ -5,12 +5,13 @@
   "description": "Complete school management solution with mobile support",
   "start_url": "/",
   "display": "standalone",
-  "display_override": ["window-controls-overlay", "standalone"],
+  "display_override": ["fullscreen", "standalone", "minimal-ui"],
   "orientation": "portrait-primary",
   "background_color": "#ffffff",
   "theme_color": "#007bff",
   "scope": "/",
   "lang": "en",
+  "dir": "ltr",
   "categories": ["education", "productivity"],
   "launch_handler": {
     "client_mode": "navigate-existing"
@@ -51,6 +52,11 @@
       ]
     }
   },
+  "background_sync": [
+    "attendance-sync",
+    "grades-sync",
+    "notifications-sync"
+  ],
   "icons": [
     {
       "src": "/static/images/icon-72.png",

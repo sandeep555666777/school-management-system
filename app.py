@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Numeric
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
@@ -1247,6 +1247,10 @@ def service_worker():
 def service_worker_simple():
     return app.send_static_file('sw-simple.js'), 200, {'Content-Type': 'application/javascript'}
 
+@app.route('/static/sw-minimal.js')
+def service_worker_minimal():
+    return app.send_static_file('sw-minimal.js'), 200, {'Content-Type': 'application/javascript'}
+
 @app.route('/static/manifest.json')
 def manifest():
     return app.send_static_file('manifest.json'), 200, {'Content-Type': 'application/json'}
@@ -1272,6 +1276,36 @@ def share_target():
     
     # GET request - show share form
     return render_template('share.html')
+
+@app.route('/api/widget-data')
+def widget_data():
+    """Provide data for PWA widgets"""
+    try:
+        # Get basic stats for widget
+        total_students = Student.query.count()
+        total_teachers = Teacher.query.count()
+        total_classes = Class.query.count()
+        
+        widget_data = {
+            "students": total_students,
+            "teachers": total_teachers,
+            "classes": total_classes,
+            "last_updated": datetime.now().isoformat()
+        }
+        
+        return jsonify(widget_data)
+    except Exception as e:
+        return jsonify({"error": "Widget data unavailable"}), 500
+
+@app.route('/test-pwa')
+def test_pwa():
+    """PWA validation test page"""
+    return send_from_directory('.', 'test_pwa.html')
+
+@app.route('/offline')
+def offline():
+    """Offline fallback page"""
+    return render_template('offline.html')
 
 if __name__ == '__main__':
     with app.app_context():

@@ -14,16 +14,150 @@
     <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#007bff">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="School MS">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="msapplication-TileColor" content="#007bff">
     <meta name="msapplication-config" content="{{ url_for('static', filename='browserconfig.xml') }}">
+    
+    <!-- Android specific meta tags -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    
+    <!-- Fullscreen meta tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- Prevent address bar from showing -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, minimal-ui">
     
     <!-- Apple Touch Icons -->
     <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/apple-touch-icon.png') }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon-32x32.png') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/favicon-16x16.png') }}">
     <style>
+        /* PWA Fullscreen Styles */
+        html, body {
+            height: 100%;
+            overflow-x: hidden;
+        }
+        
+        /* Hide address bar on mobile */
+        @media (display-mode: standalone) {
+            body {
+                padding-top: env(safe-area-inset-top);
+                padding-bottom: env(safe-area-inset-bottom);
+            }
+        }
+        
+        /* Fullscreen app mode */
+        .standalone-app {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        
+        /* iOS Safari fullscreen fix */
+        @supports (-webkit-touch-callout: none) {
+            .standalone-app {
+                height: 100vh !important;
+                height: calc(var(--vh, 1vh) * 100) !important;
+            }
+        }
+        
+        /* Offline mode styles */
+        .app-offline {
+            filter: grayscale(0.3);
+        }
+        
+        .app-offline::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.05);
+            pointer-events: none;
+            z-index: 999;
+        }
+        
+        /* Network status indicator */
+        #network-status {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        #network-status.online {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        #network-status.offline {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            opacity: 1;
+        }
+        
+        /* PWA install button enhancement */
+        .pwa-install-btn {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 25px;
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+            font-size: 14px;
+            font-weight: bold;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+        
+        .pwa-install-btn:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 123, 255, 0.4);
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3); }
+            50% { box-shadow: 0 4px 12px rgba(0, 123, 255, 0.6), 0 0 0 10px rgba(0, 123, 255, 0.1); }
+            100% { box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3); }
+        }
+        
+        /* Status bar overlay fix */
+        .status-bar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: env(safe-area-inset-top, 0px);
+            background-color: #007bff;
+            z-index: 9999;
+        }
+        
         .sidebar {
             min-height: 100vh;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -463,17 +597,170 @@
     
     <!-- PWA Installation Script -->
     <script>
-        // Register Service Worker
-        if ('serviceWorker' in navigator) {
-            // Register immediately, don't wait for load event
-            navigator.serviceWorker.register('/static/sw-simple.js')
-                .then(registration => {
-                    console.log('SW registered: ', registration);
-                })
-                .catch(registrationError => {
-                    console.log('SW registration failed: ', registrationError);
+        // Register Service Worker - Fast and reliable registration
+        if ('serviceWorker' in navigator && 'caches' in window) {
+            // Register immediately but don't wait for it
+            navigator.serviceWorker.register('/static/sw-minimal.js', {
+                scope: '/',
+                updateViaCache: 'none' // Always check for updates
+            }).then(registration => {
+                console.log('SW: Registered successfully', registration.scope);
+                
+                // Check for updates
+                registration.addEventListener('updatefound', () => {
+                    console.log('SW: Update found');
+                    const newWorker = registration.installing;
+                    
+                    newWorker.addEventListener('statechange', () => {
+                        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                            console.log('SW: New version available');
+                            // Optionally show update notification
+                        }
+                    });
                 });
+
+                // Enable background sync if supported
+                if ('sync' in window.ServiceWorkerRegistration.prototype) {
+                    console.log('SW: Background sync supported');
+                }
+
+                // Enable periodic sync if supported
+                if ('periodicSync' in window.ServiceWorkerRegistration.prototype) {
+                    console.log('SW: Periodic sync supported');
+                }
+
+            }).catch(error => {
+                console.warn('SW: Registration failed (non-critical):', error);
+                // Continue without service worker
+            });
+
+            // Handle controller change
+            navigator.serviceWorker.addEventListener('controllerchange', () => {
+                console.log('SW: Controller changed, reloading page');
+                window.location.reload();
+            });
+        } else {
+            console.log('SW: Service workers not supported');
         }
+
+        // Hide Address Bar and Make Fullscreen
+        function hideAddressBar() {
+            // Method 1: For older mobile browsers
+            setTimeout(() => {
+                window.scrollTo(0, 1);
+            }, 100);
+            
+            // Method 2: Request fullscreen if supported
+            if (document.documentElement.requestFullscreen) {
+                // Only in standalone mode
+                if (window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches) {
+                    document.addEventListener('click', () => {
+                        if (!document.fullscreenElement) {
+                            document.documentElement.requestFullscreen().catch(err => {
+                                console.log('Fullscreen error:', err);
+                            });
+                        }
+                    }, { once: true });
+                }
+            }
+        }
+
+        // Apply fullscreen on load and orientation change
+        window.addEventListener('load', hideAddressBar);
+        window.addEventListener('orientationchange', () => {
+            setTimeout(hideAddressBar, 500);
+        });
+        
+        // Detect if running in standalone mode
+        if (window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches) {
+            document.body.classList.add('standalone-app');
+            console.log('Running in standalone app mode');
+        }
+
+        // Online/Offline functionality
+        function updateOnlineStatus() {
+            const isOnline = navigator.onLine;
+            console.log('Network status:', isOnline ? 'online' : 'offline');
+            
+            // Update UI to show online/offline status
+            const statusIndicator = document.getElementById('network-status');
+            if (statusIndicator) {
+                statusIndicator.className = isOnline ? 'online' : 'offline';
+                statusIndicator.textContent = isOnline ? 'Online' : 'Offline';
+            }
+            
+            // Add visual feedback to body
+            document.body.classList.toggle('app-offline', !isOnline);
+            
+            if (!isOnline) {
+                // Show offline notification
+                showOfflineNotification();
+            } else {
+                // Hide offline notification and sync data
+                hideOfflineNotification();
+                syncOfflineData();
+            }
+        }
+
+        function showOfflineNotification() {
+            let notification = document.getElementById('offline-notification');
+            if (!notification) {
+                notification = document.createElement('div');
+                notification.id = 'offline-notification';
+                notification.innerHTML = `
+                    <div style="position: fixed; top: 0; left: 0; right: 0; 
+                                background: #f8d7da; color: #721c24; padding: 10px; 
+                                text-align: center; z-index: 10000; border-bottom: 1px solid #f5c6cb;">
+                        <i class="fas fa-exclamation-triangle"></i> 
+                        You're offline. Data will sync when connection is restored.
+                    </div>
+                `;
+                document.body.appendChild(notification);
+            }
+        }
+
+        function hideOfflineNotification() {
+            const notification = document.getElementById('offline-notification');
+            if (notification) {
+                notification.remove();
+            }
+        }
+
+        function syncOfflineData() {
+            if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+                // Trigger background sync for different data types
+                navigator.serviceWorker.ready.then(registration => {
+                    if ('sync' in registration) {
+                        registration.sync.register('attendance-sync').catch(console.log);
+                        registration.sync.register('grades-sync').catch(console.log);
+                        registration.sync.register('notifications-sync').catch(console.log);
+                        console.log('Background sync registered');
+                    }
+                });
+            }
+        }
+
+        // Store data for offline use
+        function storeOfflineData(type, data) {
+            try {
+                const existing = JSON.parse(localStorage.getItem(`offline_${type}`) || '[]');
+                existing.push({...data, timestamp: Date.now()});
+                localStorage.setItem(`offline_${type}`, JSON.stringify(existing));
+                console.log(`Stored offline ${type} data`);
+            } catch (error) {
+                console.warn('Failed to store offline data:', error);
+            }
+        }
+
+        // Listen for online/offline events
+        window.addEventListener('online', updateOnlineStatus);
+        window.addEventListener('offline', updateOnlineStatus);
+        
+        // Check initial status
+        updateOnlineStatus();
+
+        // Make functions available globally for forms
+        window.storeOfflineData = storeOfflineData;
 
         // PWA Install Prompt
         let deferredPrompt;
@@ -572,6 +859,9 @@
             }, 3000);
         }
     </script>
+    
+    <!-- Network Status Indicator -->
+    <div id="network-status"></div>
     
     {% block scripts %}{% endblock %}
 </body>
